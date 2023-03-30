@@ -1,0 +1,7 @@
+.element__group-like{
+  display: flex;
+  width: 22px;
+  height: 35px;
+  flex-direction: column;
+  align-items: center;
+}
