@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const { createUser, login } = require('./controllers/users');
 const cardRouter = require('./routes/cards');
 const userRouter = require('./routes/users');
@@ -11,8 +12,8 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 
 const app = express();
+app.use(cors());
 const { PORT = 3000, BASE_PATH = 'http://localhost' } = process.env;
-
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   family: 4,
 });
