@@ -4,12 +4,12 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/...
+Адрес репозитория: https://github.com/Dreusus/react-mesto-api-full-gha
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 62.84.121.214
 
-Frontend https://...
+Frontend https://https://dreusus.nomoredomains.work/
 
-Backend https://...
+Backend  https://api.dreusus.nomoredomains.work/
