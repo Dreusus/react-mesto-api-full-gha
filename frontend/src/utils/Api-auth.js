@@ -49,8 +49,8 @@ class Auth {
 }
 
 const auth = new Auth({
-  /* baseUrl: 'http://localhost:3000', */
-  baseUrl: 'https://api.dreusus.nomoredomains.work',
+   baseUrl: 'http://localhost:3000', 
+ /*  baseUrl: 'https://api.dreusus.nomoredomains.work', */
 });
 
 export default auth;

@@ -12,13 +12,11 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
+const { PORT = 3000 } = process.env;
 const app = express();
 app.use(cors());
+mongoose.connect('mongodb://localhost:27017/mestodb');
 
-const { PORT = 3000 } = process.env;
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  family: 4,
-});
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,11 +56,10 @@ app.post(
 app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
-app.use(errorLogger);
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Такая страница не существует'));
 });
-
+app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
