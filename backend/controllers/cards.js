@@ -56,7 +56,7 @@ const likeCard = (req, res, next) => {
       if (!card) {
         return next(new NotFoundError('404 - Передан несуществующий _id карточки'));
       }
-      return res.status(200).send({ date: card });
+      return res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -76,7 +76,7 @@ const dislikeCard = (req, res, next) => {
       if (!card) {
         return next(new NotFoundError('404 - Карточка с таким id  не найдена'));
       }
-      return res.status(200).send({ date: card });
+      return res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

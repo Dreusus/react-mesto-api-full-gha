@@ -32,9 +32,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState('')
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState({ opened: false, success: false })
-
-
   const navigate = useNavigate()
+
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
   }
@@ -62,37 +61,51 @@ function App() {
   }
 
   useEffect(() => {
-    api.getUserInfo()
-      .then((res) => {
-        setCurrentUser(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-    api.getInitialCards()
-      .then((res) => {
-        setCards(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
-
-  useEffect(() => {
-    tokenCheck()
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
+      Promise.all([
+        api.getUserInfo(),
+        api.getInitialCards()
+      ])
+        .then(([userInfo, initialCards]) => {
+          setCurrentUser(userInfo);
+          setCards(initialCards)
+        })
+        .catch((err) => console.log(err))
+    }
   }, [loggedIn])
 
   useEffect(() => {
-    if (loggedIn) {
-      navigate("/")
-      return
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setUserEmail(res.email)
+            setLoggedIn(true)
+          }
+          navigate('/')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
-  }, [loggedIn, navigate])
+  }, [navigate]);
+
+  useEffect(() => {
+    const close = (e) => {
+      if (e.keyCode === 27) {
+        closeAllPopups()
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  })
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id)
-    api.changeLikeCardStatus(card._id, isLiked)
+    const isLiked = card.likes.some((i) => i === currentUser._id)
+    api
+      .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
       })
@@ -135,9 +148,10 @@ function App() {
       .finally(() => setIsLoading(false))
   }
 
-  function handleAddPlaceSubmit(newCard) {
+  function handleAddPlaceSubmit(data) {
     setIsLoading(true)
-    api.addCard(newCard)
+    api
+      .addCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards])
         closeAllPopups()
@@ -151,8 +165,7 @@ function App() {
   function handleLogin({ password, email }) {
     return auth.login({ password, email })
       .then((res) => {
-        localStorage.setItem('token', res.token)
-        tokenCheck()
+        localStorage.setItem('jwt', res.token)
         setLoggedIn(true)
         navigate('/')
       })
@@ -173,23 +186,8 @@ function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem('token')
+    localStorage.removeItem('jwt')
     setLoggedIn(false)
-  }
-
-  function tokenCheck() {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token')
-      auth.checkToken(token).then((res) => {
-        if (res) {
-          setUserEmail(res.data.email)
-          setLoggedIn(true)
-        }
-      })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
   }
 
   return (

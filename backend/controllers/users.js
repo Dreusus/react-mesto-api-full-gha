@@ -5,22 +5,14 @@ const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-err');
 const BadRequestError = require('../errors/bad-req-err');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign(
-        { _id: user._id },
-        'some-secret-key',
-        {
-          expiresIn: '7d',
-        },
-      );
-      res.cookie('jwt', token, {
-        maxAge: 3600000,
-        httpOnly: true,
-      });
-      res.send({ token });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      res.status(200).send({ token });
     })
     .catch(next);
 };
@@ -45,7 +37,7 @@ const getUserById = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError(`404 Пользователь по указанному  _id - ${req.params.id} не найден`));
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -96,7 +88,7 @@ const updateProfile = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError(`404 Пользователь по указанному  _id - ${req.params.id} не найден`));
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -123,7 +115,7 @@ const updateUserAvatar = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError('404 Пользователь по указанному  _id  не найден'));
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

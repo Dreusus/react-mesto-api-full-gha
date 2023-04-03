@@ -10,9 +10,11 @@ const cardRouter = require('./routes/cards');
 const userRouter = require('./routes/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 app.use(cors());
+
 const { PORT = 3000, BASE_PATH = 'http://localhost' } = process.env;
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   family: 4,
@@ -45,9 +47,11 @@ app.post(
   }),
   login,
 );
+app.use(requestLogger);
 app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+app.use(errorLogger);
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Такая страница не существует'));
 });
