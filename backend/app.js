@@ -15,7 +15,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 app.use(cors());
 
-const { PORT = 3000, BASE_PATH = 'http://localhost' } = process.env;
+const { PORT = 3000 } = process.env;
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   family: 4,
 });
@@ -23,6 +23,13 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
+app.use(requestLogger);
 app.post(
   '/signup',
   celebrate({
@@ -47,7 +54,7 @@ app.post(
   }),
   login,
 );
-app.use(requestLogger);
+
 app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
@@ -71,5 +78,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Сервер : ${BASE_PATH}:${PORT}`);
+  console.log(`app listening on port - ${PORT}`);
 });
