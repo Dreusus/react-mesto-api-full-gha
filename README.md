@@ -10,6 +10,6 @@
 
 IP-адрес 62.84.121.214
 
-Frontend https://https://dreusus.nomoredomains.work/
+Frontend https://dreusus.nomoredomains.work/
 
-Backend  https://api.dreusus.nomoredomains.work/
+Backend https://api.dreusus.nomoredomains.work/
