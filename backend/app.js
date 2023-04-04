@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -11,16 +10,12 @@ const userRouter = require('./routes/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-
-const app = express();
-
-app.use(cors());
-app.use(cookieParser());
-
 const { PORT = 3000, BASE_PATH = '127.0.0.1' } = process.env;
 
+const app = express();
+app.use(cors());
+app.use(cookieParser());
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
