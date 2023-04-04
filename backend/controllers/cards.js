@@ -5,6 +5,7 @@ const ForbiddenError = require('../errors/forbidden-err');
 
 const getCards = (req, res, next) => {
   Card.find({})
+    .populate(['owner', 'likes'])
     .sort({ _id: -1 })
     .then((cards) => res.send(cards))
     .catch((err) => {
@@ -16,7 +17,7 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
   Card.create({ name, link, owner })
-    .then((card) => res.send(card))
+    .then((card) => res.status(201).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Не указаны обязательные поля'));
@@ -31,7 +32,7 @@ const deleteCard = (req, res, next) => {
       if (!card) {
         return next(new NotFoundError('404 - Передан несуществующий _id карточки'));
       }
-      if (card.owner.toString() !== req.user._id) {
+      if (card.owner._id.toString() !== req.user._id) {
         return next(new ForbiddenError('Вам запрещено удалять данную карточку'));
       }
       return Card.findByIdAndDelete(req.params.cardId)
@@ -53,6 +54,7 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         return next(new NotFoundError('404 - Передан несуществующий _id карточки'));
@@ -73,6 +75,7 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
+    .populate(['owner'])
     .then((card) => {
       if (!card) {
         return next(new NotFoundError('404 - Карточка с таким id  не найдена'));

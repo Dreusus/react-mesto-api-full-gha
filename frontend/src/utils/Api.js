@@ -94,7 +94,7 @@ class Api {
 }
 
 export const api = new Api({
- baseUrl: 'https://api.dreusus.nomoredomains.work',  
+  baseUrl: 'https://api.dreusus.nomoredomains.work',
   headers: {
     'Content-Type': 'application/json'
   }
