@@ -94,9 +94,6 @@ const updateProfile = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('400 - Переданы некорректные данные при обновлении профиля'));
       }
-      if (err.name === 'CastError') {
-        return next(new BadRequestError('400 - Некорректный id'));
-      }
       return next(err);
     });
 };
@@ -120,9 +117,6 @@ const updateUserAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('400 - Переданы некорректные данные при обновлении аватара'));
-      }
-      if (err.name === 'CastError') {
-        return next(new BadRequestError('400 - Некорректный id'));
       }
       return next(err);
     });

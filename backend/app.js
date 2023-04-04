@@ -10,6 +10,7 @@ const userRouter = require('./routes/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const { PORT = 3000, BASE_PATH = '127.0.0.1' } = process.env;
 
 const app = express();
@@ -32,7 +33,7 @@ app.post(
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      avatar: Joi.string().regex(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\#\w \.-]*)*\/?$/),
+      avatar: Joi.string().regex(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\#\w \.-]*)*\/?$/), //eslint-disable-line
       email: Joi.string().required().email(),
       password: Joi.string().required(),
     }),
