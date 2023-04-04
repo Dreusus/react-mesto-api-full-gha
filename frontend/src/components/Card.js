@@ -4,10 +4,9 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext"
 function Card(props) {
   const currentUser = useContext(CurrentUserContext)
 
-  const isOwn = props.card.owner === currentUser._id;
+  const isOwn = props.card.owner._id === currentUser._id;
+  const isLiked = props.card.likes.some((i) => i._id === currentUser._id);
 
-  const isLiked = props.card.likes.some((i) => i === currentUser._id);
- 
   const cardLikeButtonClassName = (
     `element__like ${isLiked && 'element__like_active'}`
   )
@@ -32,7 +31,7 @@ function Card(props) {
         src={props.card.link}
         className="element__image"
       />
-      {isOwn && <button className='element__delete' onClick={handleDeleteClick} />}
+      {isOwn && <button className='element__delete' onClick={handleDeleteClick} />} 
       <div className="element__subscription">
         <h2 className="element__title">{props.card.name}</h2>
         <div className="element__group-like">

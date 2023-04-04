@@ -49,7 +49,7 @@ class Auth {
 }
 
 const auth = new Auth({
-    baseUrl: 'https://api.dreusus.nomoredomains.work', 
+  baseUrl: 'https://api.dreusus.nomoredomains.work'
 });
 
 export default auth;

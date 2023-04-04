@@ -84,7 +84,7 @@ class Api {
   changeLikeCardStatus(id, isLiked) {
     const token = localStorage.getItem('jwt');
     return this._request(`${this._baseUrl}/cards/${id}/likes`, {
-      method: isLiked ? "DELETE" : "PUT",
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: {
         ...this._headers,
         Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: 'https://api.dreusus.nomoredomains.work',   
+ baseUrl: 'https://api.dreusus.nomoredomains.work',  
   headers: {
     'Content-Type': 'application/json'
   }
