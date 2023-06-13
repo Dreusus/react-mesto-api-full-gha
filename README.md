@@ -1,15 +1,34 @@
-[![Tests](https://github.com/yandex-praktikum/react-mesto-api-full-gha/actions/workflows/tests.yml/badge.svg)](https://github.com/yandex-praktikum/react-mesto-api-full-gha/actions/workflows/tests.yml)
-# react-mesto-api-full
-Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями. Бэкенд расположите в директории `backend/`, а фронтенд - в `frontend/`. 
-  
-Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
+ # **Проект место**
+----
+##  Стек
+Frontend:  
+* HTML5  
+* CSS  
+* React  
+Backend:  
+* Node.js  
+* Express  
+* MongoDB  
 
-Адрес репозитория: https://github.com/Dreusus/react-mesto-api-full-gha
 
-## Ссылки на проект
+## Редактирование аватара  
+![](https://raw.githubusercontent.com/Dreusus/react-mesto-api-full-gha/frontend/src/images/gif/editavatar.gif)
 
-IP-адрес 62.84.121.214
+## Редактирование профиля
+![](https://raw.githubusercontent.com/Dreusus/react-mesto-api-full-gha/frontend/src/images/gif/editprofile.gif)
 
-Frontend https://dreusus.nomoredomains.work/
+## Добавление карточки
+![](https://raw.githubusercontent.com/Dreusus/react-mesto-api-full-gha/frontend/src/images/gif/addCard.gif)
 
-Backend https://api.dreusus.nomoredomains.work/
+## Открытие карточки
+![](https://raw.githubusercontent.com/Dreusus/react-mesto-api-full-gha/frontend/src/images/gif/openCard.gif)
+
+## Лайк/Дизлайк/Удаление карточки
+![](https://raw.githubusercontent.com/Dreusus/react-mesto-api-full-gha/frontend/src/images/gif/likedelete.gif)
+
+## Ошибка при регистрации
+![](https://raw.githubusercontent.com/Dreusus/react-mesto-api-full-gha/frontend/src/images/gif/errorRegister.gif)
+
+## Успешная регистрация
+![](https://raw.githubusercontent.com/Dreusus/react-mesto-api-full-gha/frontend/src/images/gif/successregistr.gif)
+
